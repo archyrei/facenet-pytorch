@@ -62,15 +62,21 @@ def detect_face(imgs, minsize, pnet, rnet, onet, threshold, factor, device):
     # First stage
     boxes = []
     image_inds = []
+    
+    #coba print hasil pnet
+    hasil_p = {}
+    idx = 0
 
     scale_picks = []
 
     all_i = 0
     offset = 0
     for scale in scales:
+        idx+=1
         im_data = imresample(imgs, (int(h * scale + 1), int(w * scale + 1)))
         im_data = (im_data - 127.5) * 0.0078125
         reg, probs = pnet(im_data)
+        hasil_p['idx']=[reg,prob]
     
         boxes_scale, image_inds_scale = generateBoundingBox(reg, probs[:, 1], scale, threshold[0])
         boxes.append(boxes_scale)
@@ -182,7 +188,7 @@ def detect_face(imgs, minsize, pnet, rnet, onet, threshold, factor, device):
 
     batch_boxes, batch_points = np.array(batch_boxes), np.array(batch_points)
 
-    return batch_boxes, batch_points
+    return batch_boxes, batch_points, hasil_p
 
 
 def bbreg(boundingbox, reg):
