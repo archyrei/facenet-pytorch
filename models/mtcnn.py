@@ -310,7 +310,7 @@ class MTCNN(nn.Module):
         """
 
         with torch.no_grad():
-            batch_boxes, batch_points = detect_face(
+            batch_boxes, batch_points, hasil_p = detect_face(
                 img, self.min_face_size,
                 self.pnet, self.rnet, self.onet,
                 self.thresholds, self.factor,
@@ -352,7 +352,7 @@ class MTCNN(nn.Module):
         if landmarks:
             return boxes, probs, points
 
-        return boxes, probs
+        return boxes, probs, hasil_p
 
     def select_boxes(
         self, all_boxes, all_probs, all_points, imgs, method='probability', threshold=0.9,
