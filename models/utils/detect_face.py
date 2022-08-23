@@ -76,7 +76,11 @@ def detect_face(imgs, minsize, pnet, rnet, onet, threshold, factor, device):
         im_data = imresample(imgs, (int(h * scale + 1), int(w * scale + 1)))
         im_data = (im_data - 127.5) * 0.0078125
         reg, probs = pnet(im_data)
-        hasil_p[idx]=[reg,probs]
+        hasil_p['scale_'idx] = {
+            'scale' : scale,
+            'reg' : reg,
+            'probs' : probs
+        }
     
         boxes_scale, image_inds_scale = generateBoundingBox(reg, probs[:, 1], scale, threshold[0])
         boxes.append(boxes_scale)
