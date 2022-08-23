@@ -64,7 +64,7 @@ def detect_face(imgs, minsize, pnet, rnet, onet, threshold, factor, device):
     image_inds = []
     
     #coba print hasil pnet
-    hasil_p = {}
+    loot = {}
     idx = 0
 
     scale_picks = []
@@ -76,11 +76,14 @@ def detect_face(imgs, minsize, pnet, rnet, onet, threshold, factor, device):
         im_data = imresample(imgs, (int(h * scale + 1), int(w * scale + 1)))
         im_data = (im_data - 127.5) * 0.0078125
         reg, probs = pnet(im_data)
-        hasil_p[idx] = {
+        
+        # mengambil semua yang ingin kuketahui
+        loot[idx] = {
             'scale' : scale,
             'reg' : reg,
             'probs' : probs
         }
+        #
     
         boxes_scale, image_inds_scale = generateBoundingBox(reg, probs[:, 1], scale, threshold[0])
         boxes.append(boxes_scale)
@@ -113,6 +116,10 @@ def detect_face(imgs, minsize, pnet, rnet, onet, threshold, factor, device):
     boxes = rerec(boxes)
     y, ey, x, ex = pad(boxes, w, h)
     
+    # mengambil semua yang ingin kuketahui
+    loot['boxes'] = boxes
+    #
+    
     # Second stage
     if len(boxes) > 0:
         im_data = []
@@ -125,6 +132,10 @@ def detect_face(imgs, minsize, pnet, rnet, onet, threshold, factor, device):
 
         # This is equivalent to out = rnet(im_data) to avoid GPU out of memory.
         out = fixed_batch_process(im_data, rnet)
+        
+        # mengambil semua yang ingin kuketahui
+        loot['rnet'] = out
+        #
 
         out0 = out[0].permute(1, 0)
         out1 = out[1].permute(1, 0)
@@ -139,6 +150,10 @@ def detect_face(imgs, minsize, pnet, rnet, onet, threshold, factor, device):
         boxes, image_inds, mv = boxes[pick], image_inds[pick], mv[pick]
         boxes = bbreg(boxes, mv)
         boxes = rerec(boxes)
+        
+        # mengambil semua yang ingin kuketahui
+        loot['boxes-after-rnet'] = boxes
+        #
 
     # Third stage
     points = torch.zeros(0, 5, 2, device=device)
@@ -154,6 +169,10 @@ def detect_face(imgs, minsize, pnet, rnet, onet, threshold, factor, device):
         
         # This is equivalent to out = onet(im_data) to avoid GPU out of memory.
         out = fixed_batch_process(im_data, onet)
+        
+        # mengambil semua yang ingin kuketahui
+        loot['onet'] = out
+        #
 
         out0 = out[0].permute(1, 0)
         out1 = out[1].permute(1, 0)
@@ -172,6 +191,10 @@ def detect_face(imgs, minsize, pnet, rnet, onet, threshold, factor, device):
         points_y = h_i.repeat(5, 1) * points[5:10, :] + boxes[:, 1].repeat(5, 1) - 1
         points = torch.stack((points_x, points_y)).permute(2, 1, 0)
         boxes = bbreg(boxes, mv)
+        
+        # mengambil semua yang ingin kuketahui
+        loot['boxes-after-onet'] = boxes
+        #
 
         # NMS within each image using "Min" strategy
         # pick = batched_nms(boxes[:, :4], boxes[:, 4], image_inds, 0.7)
@@ -192,7 +215,7 @@ def detect_face(imgs, minsize, pnet, rnet, onet, threshold, factor, device):
 
     batch_boxes, batch_points = np.array(batch_boxes), np.array(batch_points)
 
-    return batch_boxes, batch_points, hasil_p
+    return batch_boxes, batch_points, loot
 
 
 def bbreg(boundingbox, reg):
