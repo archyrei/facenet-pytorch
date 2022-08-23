@@ -76,7 +76,7 @@ def detect_face(imgs, minsize, pnet, rnet, onet, threshold, factor, device):
         im_data = imresample(imgs, (int(h * scale + 1), int(w * scale + 1)))
         im_data = (im_data - 127.5) * 0.0078125
         reg, probs = pnet(im_data)
-        hasil_p['scale_'idx] = {
+        hasil_p[idx] = {
             'scale' : scale,
             'reg' : reg,
             'probs' : probs
