@@ -309,8 +309,9 @@ class MTCNN(nn.Module):
         >>> img_draw.save('annotated_faces.png')
         """
 
+        # mengambil semua yang ingin kuketahui
         with torch.no_grad():
-            batch_boxes, batch_points, hasil_p = detect_face(
+            batch_boxes, batch_points, loot = detect_face(
                 img, self.min_face_size,
                 self.pnet, self.rnet, self.onet,
                 self.thresholds, self.factor,
@@ -352,7 +353,7 @@ class MTCNN(nn.Module):
         if landmarks:
             return boxes, probs, points
 
-        return boxes, probs, hasil_p
+        return boxes, probs, loot
 
     def select_boxes(
         self, all_boxes, all_probs, all_points, imgs, method='probability', threshold=0.9,
