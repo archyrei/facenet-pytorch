@@ -80,8 +80,8 @@ def detect_face(imgs, minsize, pnet, rnet, onet, threshold, factor, device):
         # mengambil semua yang ingin kuketahui
         loot[idx] = {
             'scale' : scale,
-            'reg' : reg,
-            'probs' : probs
+            'reg' : reg.tolist(),
+            'probs' : probs.tolist()
         }
         #
     
