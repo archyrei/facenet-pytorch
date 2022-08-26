@@ -117,7 +117,7 @@ def detect_face(imgs, minsize, pnet, rnet, onet, threshold, factor, device):
     y, ey, x, ex = pad(boxes, w, h)
     
     # mengambil semua yang ingin kuketahui
-    loot['boxes'] = boxes
+    #loot['boxes'] = boxes
     #
     
     # Second stage
@@ -134,7 +134,7 @@ def detect_face(imgs, minsize, pnet, rnet, onet, threshold, factor, device):
         out = fixed_batch_process(im_data, rnet)
         
         # mengambil semua yang ingin kuketahui
-        loot['rnet'] = out
+        #loot['rnet'] = out
         #
 
         out0 = out[0].permute(1, 0)
@@ -152,7 +152,7 @@ def detect_face(imgs, minsize, pnet, rnet, onet, threshold, factor, device):
         boxes = rerec(boxes)
         
         # mengambil semua yang ingin kuketahui
-        loot['boxes-after-rnet'] = boxes
+        #loot['boxes-after-rnet'] = boxes
         #
 
     # Third stage
@@ -171,7 +171,7 @@ def detect_face(imgs, minsize, pnet, rnet, onet, threshold, factor, device):
         out = fixed_batch_process(im_data, onet)
         
         # mengambil semua yang ingin kuketahui
-        loot['onet'] = out
+        #loot['onet'] = out
         #
 
         out0 = out[0].permute(1, 0)
@@ -193,7 +193,7 @@ def detect_face(imgs, minsize, pnet, rnet, onet, threshold, factor, device):
         boxes = bbreg(boxes, mv)
         
         # mengambil semua yang ingin kuketahui
-        loot['boxes-after-onet'] = boxes
+        #loot['boxes-after-onet'] = boxes
         #
 
         # NMS within each image using "Min" strategy
