@@ -153,7 +153,7 @@ def detect_face(imgs, minsize, pnet, rnet, onet, threshold, factor, device):
         boxes = rerec(boxes)
         
         # mengambil semua yang ingin kuketahui
-        loot['boxes-after-rnet'] = boxes
+        loot['boxes-after-rnet'] = boxes.tolist()
         #
 
     # Third stage
