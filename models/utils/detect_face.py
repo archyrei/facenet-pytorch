@@ -134,9 +134,8 @@ def detect_face(imgs, minsize, pnet, rnet, onet, threshold, factor, device):
         out = fixed_batch_process(im_data, rnet)
         
         # mengambil semua yang ingin kuketahui
-        remake = list(out)
-        remake = torch.tensor(remake)
-        loot['rnet'] = remake.tolist()
+        loot['bounding-box'] = out[0].tolist()
+        loot['confidence'] = out[1].tolist()
         #
 
         out0 = out[0].permute(1, 0)
