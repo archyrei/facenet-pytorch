@@ -78,11 +78,11 @@ def detect_face(imgs, minsize, pnet, rnet, onet, threshold, factor, device):
         reg, probs = pnet(im_data)
         
         # mengambil semua yang ingin kuketahui
-        loot[idx] = {
-            'scale' : scale,
-            'reg' : reg.tolist(),
-            'probs' : probs.tolist()
-        }
+        #loot[idx] = {
+        #    'scale' : scale,
+        #    'reg' : reg.tolist(),
+        #    'probs' : probs.tolist()
+        #}
         #
     
         boxes_scale, image_inds_scale = generateBoundingBox(reg, probs[:, 1], scale, threshold[0])
@@ -117,7 +117,7 @@ def detect_face(imgs, minsize, pnet, rnet, onet, threshold, factor, device):
     y, ey, x, ex = pad(boxes, w, h)
     
     # mengambil semua yang ingin kuketahui
-    #loot['boxes'] = boxes
+    loot['boxes'] = boxes.tolist()
     #
     
     # Second stage
