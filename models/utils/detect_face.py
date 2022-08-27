@@ -117,7 +117,7 @@ def detect_face(imgs, minsize, pnet, rnet, onet, threshold, factor, device):
     y, ey, x, ex = pad(boxes, w, h)
     
     # mengambil semua yang ingin kuketahui
-    loot['boxes'] = boxes.tolist()
+    #loot['boxes'] = boxes.tolist()
     #
     
     # Second stage
@@ -134,7 +134,7 @@ def detect_face(imgs, minsize, pnet, rnet, onet, threshold, factor, device):
         out = fixed_batch_process(im_data, rnet)
         
         # mengambil semua yang ingin kuketahui
-        #loot['rnet'] = out
+        loot['rnet'] = out.tolist()
         #
 
         out0 = out[0].permute(1, 0)
