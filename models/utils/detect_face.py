@@ -196,7 +196,7 @@ def detect_face(imgs, minsize, pnet, rnet, onet, threshold, factor, device):
         boxes = bbreg(boxes, mv)
         
         # mengambil semua yang ingin kuketahui
-        loot['boxes-after-onet'] = boxes.tolist()
+        #loot['boxes-after-onet'] = boxes.tolist()
         #
 
         # NMS within each image using "Min" strategy
@@ -218,7 +218,7 @@ def detect_face(imgs, minsize, pnet, rnet, onet, threshold, factor, device):
 
     batch_boxes, batch_points = np.array(batch_boxes), np.array(batch_points)
 
-    return batch_boxes, batch_points, loot
+    return batch_boxes, batch_points
 
 
 def bbreg(boundingbox, reg):
