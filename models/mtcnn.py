@@ -311,13 +311,17 @@ class MTCNN(nn.Module):
 
         # mengambil semua yang ingin kuketahui
         with torch.no_grad():
-            batch_boxes, batch_points, loot = detect_face(
+            batch_boxes, batch_points = detect_face(
                 img, self.min_face_size,
                 self.pnet, self.rnet, self.onet,
                 self.thresholds, self.factor,
                 self.device
             )
 
+        loot = {}
+        loot['batch-boxes'] = batch_boxes
+        loot['batch_points'] = batch_points
+        
         boxes, probs, points = [], [], []
         for box, point in zip(batch_boxes, batch_points):
             box = np.array(box)
