@@ -172,9 +172,9 @@ def detect_face(imgs, minsize, pnet, rnet, onet, threshold, factor, device):
         out = fixed_batch_process(im_data, onet)
         
         # mengambil semua yang ingin kuketahui
-        loot['coordinates-facial-landmarks'] = out[0].tolist()
-        loot['coordinates-bounding-box'] = out[1].tolist()
-        loot['probality'] = out[2].tolist()
+        #loot['coordinates-facial-landmarks'] = out[0].tolist()
+        #loot['coordinates-bounding-box'] = out[1].tolist()
+        #loot['probality'] = out[2].tolist()
         #
 
         out0 = out[0].permute(1, 0)
@@ -196,7 +196,7 @@ def detect_face(imgs, minsize, pnet, rnet, onet, threshold, factor, device):
         boxes = bbreg(boxes, mv)
         
         # mengambil semua yang ingin kuketahui
-        #loot['boxes-after-onet'] = boxes
+        loot['boxes-after-onet'] = boxes.tolist()
         #
 
         # NMS within each image using "Min" strategy
