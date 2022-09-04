@@ -319,8 +319,8 @@ class MTCNN(nn.Module):
             )
 
         loot = {}
-        loot['batch_boxes'] = batch_boxes
-        loot['batch_points'] = batch_points
+        loot['batch_boxes'] = batch_boxes.tolist()
+        loot['batch_points'] = batch_points.tolist()
         
         boxes, probs, points = [], [], []
         for box, point in zip(batch_boxes, batch_points):
