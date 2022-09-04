@@ -319,7 +319,7 @@ class MTCNN(nn.Module):
             )
 
         loot = {}
-        loot['batch-boxes'] = batch_boxes
+        loot['batch_boxes'] = batch_boxes
         loot['batch_points'] = batch_points
         
         boxes, probs, points = [], [], []
@@ -355,7 +355,7 @@ class MTCNN(nn.Module):
             points = points[0]
 
         if landmarks:
-            return boxes, probs, points
+            return boxes, probs, points, loot
 
         return boxes, probs, loot
 
